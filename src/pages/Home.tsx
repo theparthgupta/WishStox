@@ -30,12 +30,12 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
-          <div className="container px-4 md:px-6 max-w-7xl">
-            <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-center mb-12">
-              Key Features
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800 flex justify-center">
+          <div className="container px-4 md:px-6 max-w-7xl text-center">
+            <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-center mb-16">
+             Key Features
             </h2>
-            <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 justify-items-center">
               <FeatureCard
                 icon={ArrowUpDown}
                 title="Real-Time Stock Updates"
@@ -50,7 +50,7 @@ export default function Home() {
                 icon={Brain}
                 title="AI-Powered Insights"
                 description="Leverage AI to gain insights, predict trends, and make better decisions."
-              />
+             />
             </div>
           </div>
         </section>
