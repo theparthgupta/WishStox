@@ -25,7 +25,7 @@ export default function StockSearch() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchTerm}&apikey=YOUR_API_KEY`
+        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchTerm}&apikey=GNYZEFIZGV3IQ1BJ`
       );
       const data = await response.json();
 

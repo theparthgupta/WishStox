@@ -1,50 +1,49 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import StockChart from "@/components/ui/StockChart";
 
 export default function StockDetails() {
-  const { symbol } = useParams(); // Get stock symbol from URL
-  const [stockData, setStockData] = useState<any>(null);
+  const { symbol } = useParams<{ symbol: string }>();
+  const [stockData, setStockData] = useState<{ date: string; close: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchStockDetails() {
+    async function fetchStockData() {
       try {
         const response = await fetch(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=GNYZEFIZGV3IQ1BJ`
+          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=YOUR_API_KEY`
         );
         const data = await response.json();
-        setStockData(data["Time Series (Daily)"]);
+
+        if (data["Time Series (Daily)"]) {
+          const formattedData = Object.entries(data["Time Series (Daily)"])
+            .slice(0, 5) // Get last 5 days
+            .map(([date, values]: any) => ({
+              date,
+              close: parseFloat(values["4. close"]),
+            }))
+            .reverse();
+
+          setStockData(formattedData);
+        }
       } catch (error) {
-        console.error("Error fetching stock details:", error);
+        console.error("Error fetching stock data:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    if (symbol) {
-      fetchStockDetails();
-    }
+    fetchStockData();
   }, [symbol]);
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold">Stock Details: {symbol}</h1>
-
-      {loading && <p>Loading stock data...</p>}
-
-      {stockData ? (
-        <div className="mt-4">
-          <h2 className="text-2xl font-semibold">Latest Stock Prices</h2>
-          <ul className="mt-2">
-            {Object.entries(stockData).slice(0, 5).map(([date, data]: any) => (
-              <li key={date} className="p-2 border-b">
-                <strong>{date}:</strong> Open: {data["1. open"]}, High: {data["2. high"]}, Low: {data["3. low"]}, Close: {data["4. close"]}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <h1 className="text-3xl font-bold mb-4">Stock Details: {symbol}</h1>
+      
+      {loading ? (
+        <p>Loading...</p>
       ) : (
-        <p>No data available.</p>
+        <StockChart data={stockData} />
       )}
     </div>
   );
