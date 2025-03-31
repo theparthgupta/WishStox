@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Zap, LineChart, TrendingUp, BriefcaseBusiness, Brain } from "lucide-react"
+import { ArrowRight, Zap, LineChart, TrendingUp, Briefcase, Brain } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import FeatureCard from "@/components/feature-card"
@@ -45,17 +45,34 @@ export default function HomePage() {
           </Link>
         </nav>
 
-        <Button
-          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
-          style={{
-            background: "linear-gradient(to right, #007e33, #004d25)",
-            color: "white",
-            border: "none",
-            boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
-          }}
-        >
-          Start Trading
-        </Button>
+        <div className="flex items-center gap-3">
+          <Link href="/auth/login">
+            <Button
+              variant="outline"
+              className="hidden md:flex border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60"
+              style={{
+                borderColor: "rgba(0, 126, 51, 0.4)",
+                color: "#00c853",
+                backgroundColor: "transparent",
+              }}
+            >
+              Login
+            </Button>
+          </Link>
+          <Link href="/auth/signup">
+            <Button
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
+              style={{
+                background: "linear-gradient(to right, #007e33, #004d25)",
+                color: "white",
+                border: "none",
+                boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
+              }}
+            >
+              Start Trading
+            </Button>
+          </Link>
+        </div>
       </header>
 
       {/* Hero Section */}
@@ -72,18 +89,20 @@ export default function HomePage() {
               Leverage AI algorithms to maximize your market potential with actionable insights.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
-                style={{
-                  background: "linear-gradient(to right, #007e33, #004d25)",
-                  color: "white",
-                  border: "none",
-                  boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
-                }}
-              >
-                Get Started <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link href="/auth/signup">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
+                  style={{
+                    background: "linear-gradient(to right, #007e33, #004d25)",
+                    color: "white",
+                    border: "none",
+                    boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
+                  }}
+                >
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="outline"
@@ -148,7 +167,7 @@ export default function HomePage() {
             bgColor="from-green-600/30 to-green-900/20"
           />
           <FeatureCard
-            icon={<BriefcaseBusiness className="h-10 w-10 text-green-400" />}
+            icon={<Briefcase className="h-10 w-10 text-green-400" />}
             title="Portfolio Analysis"
             description="Get comprehensive analysis of your portfolio with risk assessment, diversification recommendations, and performance forecasts."
             bgColor="from-green-900/30 to-green-900/20"
@@ -363,6 +382,16 @@ export default function HomePage() {
                 <li>
                   <Link href="#contact" className="text-gray-400 hover:text-green-400 text-sm">
                     Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth/login" className="text-gray-400 hover:text-green-400 text-sm">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth/signup" className="text-gray-400 hover:text-green-400 text-sm">
+                    Sign Up
                   </Link>
                 </li>
               </ul>
