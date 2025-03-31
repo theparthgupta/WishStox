@@ -1,11 +1,10 @@
-// lib/auth.ts
 import supabase from './supabase'
 import { AuthError, Session, User } from '@supabase/supabase-js'
 
 type AuthResponse = {
-  user?: User
-  session?: Session
-  error?: AuthError
+  user?: User | null
+  session?: Session | null
+  error?: AuthError | { message: string }
 }
 
 // Helper to format error messages
@@ -28,7 +27,10 @@ export const signUp = async (email: string, password: string): Promise<AuthRespo
     return data
   } catch (error) {
     console.error('Sign-up error:', error)
-    return { error: { ...(error as AuthError), message: formatErrorMessage(error as AuthError) } }
+    if (error instanceof AuthError) {
+      return { error: { ...error, message: formatErrorMessage(error) } }
+    }
+    return { error: { message: 'Unexpected error occurred during sign-up' } }
   }
 }
 
@@ -40,30 +42,39 @@ export const signIn = async (email: string, password: string): Promise<AuthRespo
     return data
   } catch (error) {
     console.error('Sign-in error:', error)
-    return { error: { ...(error as AuthError), message: formatErrorMessage(error as AuthError) } }
+    if (error instanceof AuthError) {
+      return { error: { ...error, message: formatErrorMessage(error) } }
+    }
+    return { error: { message: 'Unexpected error occurred during sign-in' } }
   }
 }
 
 // Reset Password
-export const resetPassword = async (email: string): Promise<{ error?: AuthError }> => {
+export const resetPassword = async (email: string): Promise<{ error?: AuthError | { message: string } }> => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email)
     if (error) throw error
     return {}
   } catch (error) {
     console.error('Password reset error:', error)
-    return { error: error as AuthError }
+    if (error instanceof AuthError) {
+      return { error }
+    }
+    return { error: { message: 'Unexpected error occurred during password reset' } }
   }
 }
 
 // Logout
-export const signOut = async (): Promise<{ error?: AuthError }> => {
+export const signOut = async (): Promise<{ error?: AuthError | { message: string } }> => {
   try {
     const { error } = await supabase.auth.signOut()
     if (error) throw error
     return {}
   } catch (error) {
     console.error('Sign-out error:', error)
-    return { error: error as AuthError }
+    if (error instanceof AuthError) {
+      return { error }
+    }
+    return { error: { message: 'Unexpected error occurred during sign-out' } }
   }
 }

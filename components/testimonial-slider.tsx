@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -139,11 +140,13 @@ const TestimonialSlider = () => {
           >
             <div className="mb-8 md:mb-0 md:w-1/3 flex flex-col items-center">
               <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-green-500/50 relative">
-                <img
-                  src={testimonials[current].avatar || "/placeholder.svg"}
-                  alt={testimonials[current].name}
-                  className="w-full h-full object-cover"
-                />
+              <Image
+                src={testimonials[current].avatar || "/placeholder.svg"}
+                alt={testimonials[current].name}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-blue-900/20" />
               </div>
               <h4 className="text-xl font-semibold text-white text-center">{testimonials[current].name}</h4>
@@ -167,9 +170,9 @@ const TestimonialSlider = () => {
             </div>
 
             <div className="md:w-2/3">
-              <p className="text-xl md:text-2xl text-gray-200 relative z-10 leading-relaxed">
-                "{testimonials[current].content}"
-              </p>
+            <p className="text-xl md:text-2xl text-gray-200 relative z-10 leading-relaxed">
+              &quot;{testimonials[current].content}&quot;
+            </p>
             </div>
           </motion.div>
         </AnimatePresence>

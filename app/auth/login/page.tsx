@@ -26,13 +26,16 @@ export default function LoginPage() {
     const password = formData.get("password") as string
 
     try {
-      const user = await signIn(email, password)
-      alert(`Welcome back, ${user.email}`)
-    } catch (error: any) {
-      setErrorMessage(error.message || "An unexpected error occurred.")
-    } finally {
-      setIsLoading(false)
-    }
+      await signIn(email, password)
+      alert(`Welcome back, ${email}`)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "An unexpected error occurred.")
+      } else {
+        setErrorMessage("An unknown error occurred.")
+      }
+    } 
+    
   }
 
   return (

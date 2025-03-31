@@ -23,8 +23,12 @@ async function sendPasswordReset(email: string) {
       const errorData = await response.json()
       throw new Error(errorData.message || "Failed to send reset link")
     }
-  } catch (error: any) {
-    throw new Error(error.message || "Something went wrong")
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message || "Something went wrong")
+    } else {
+      throw new Error("An unknown error occurred")
+    }
   }
 }
 
@@ -45,8 +49,13 @@ export default function ForgotPasswordPage() {
       await sendPasswordReset(email)
       setIsSubmitted(true)
     } catch (error) {
-      setError(error.message)
-    } finally {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
+    }
+     finally {
       setIsLoading(false)
     }
   }
@@ -60,7 +69,7 @@ export default function ForgotPasswordPage() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center text-white">Reset Password</CardTitle>
             <CardDescription className="text-gray-400 text-center">
-              Enter your email and we'll send you a link to reset your password
+              Enter your email and we&apos;ll send you a link to reset your password
             </CardDescription>
           </CardHeader>
 
@@ -76,7 +85,7 @@ export default function ForgotPasswordPage() {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Check Your Email</h3>
                 <p className="text-gray-300 mb-6">
-                  We've sent a password reset link to your email address. Please check your inbox.
+                  We&apos;ve sent a password reset link to your email address. Please check your inbox.
                 </p>
                 <Link href="/auth/login">
                   <Button className="bg-green-700 text-white">Back to Login</Button>

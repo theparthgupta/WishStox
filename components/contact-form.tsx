@@ -51,7 +51,7 @@ const ContactForm = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
-            <p className="text-gray-300">We'll get back to you as soon as possible.</p>
+            <p className="text-gray-300">We&apos;ll get back to you as soon as possible.</p>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
