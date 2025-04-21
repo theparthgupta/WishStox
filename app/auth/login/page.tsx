@@ -10,11 +10,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import SocialAuth from "@/components/social-auth"
 import { signIn } from "@/lib/auth"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,14 +31,16 @@ export default function LoginPage() {
     try {
       await signIn(email, password)
       alert(`Welcome back, ${email}`)
+      router.push("/main")
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message || "An unexpected error occurred.")
       } else {
         setErrorMessage("An unknown error occurred.")
       }
-    } 
-    
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

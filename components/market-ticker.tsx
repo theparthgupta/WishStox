@@ -1,74 +1,141 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import React, { useEffect, useState } from 'react';
+import { FinnhubService, StockQuote } from '../app/services/finnhub';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 
-interface StockData {
-  symbol: string
-  price: number
-  change: number
+interface TickerItem {
+  symbol: string;
+  quote: StockQuote;
 }
 
-const initialStocks: StockData[] = [
-  { symbol: "AAPL", price: 182.63, change: 1.25 },
-  { symbol: "MSFT", price: 417.88, change: 2.34 },
-  { symbol: "GOOGL", price: 152.19, change: -0.87 },
-  { symbol: "AMZN", price: 178.75, change: 1.56 },
-  { symbol: "TSLA", price: 172.63, change: -2.31 },
-  { symbol: "META", price: 474.99, change: 3.45 },
-  { symbol: "NVDA", price: 950.02, change: 5.67 },
-  { symbol: "BRK.A", price: 613.78, change: 0.23 },
-  { symbol: "JPM", price: 198.45, change: -0.45 },
-  { symbol: "V", price: 275.32, change: 1.12 },
-]
+const DEFAULT_SYMBOLS = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA' , 'NVDA' , 'META' , 'AMD' , 'NFLX', 'UBER'];
 
-const MarketTicker = () => {
-  const [stocks, setStocks] = useState<StockData[]>(initialStocks)
+export default function MarketTicker() {
+  const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Simulate stock price changes
+  const fetchStockQuotes = async () => {
+    try {
+      const quotes = await Promise.all(
+        DEFAULT_SYMBOLS.map(async (symbol) => {
+          const quote = await FinnhubService.getStockQuote(symbol);
+          return { symbol, quote };
+        })
+      );
+      setTickerItems(quotes);
+      setError(null);
+    } catch (err) {
+      setError('Failed to fetch market data');
+      console.error('Error fetching stock quotes:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStocks((prevStocks) =>
-        prevStocks.map((stock) => {
-          const changeAmount = (Math.random() - 0.5) * 2
-          const newPrice = Number.parseFloat((stock.price + changeAmount).toFixed(2))
-          return {
-            ...stock,
-            price: newPrice,
-            change: Number.parseFloat(changeAmount.toFixed(2)),
-          }
-        }),
-      )
-    }, 3000)
+    fetchStockQuotes();
+    // Set up polling every 30 seconds
+    const interval = setInterval(fetchStockQuotes, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
-    return () => clearInterval(interval)
-  }, [])
+  if (loading) {
+    return (
+      <div className="bg-[#000a05]/80 backdrop-blur-sm border border-green-500/20 rounded-lg p-4">
+        <div className="animate-pulse flex space-x-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="flex-1 space-y-2">
+              <div className="h-4 bg-[#001208]/40 rounded w-3/4"></div>
+              <div className="h-4 bg-[#001208]/40 rounded w-1/2"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-[#000a05]/80 backdrop-blur-sm border border-red-500/20 rounded-lg p-4">
+        <p className="text-red-400 text-center">{error}</p>
+      </div>
+    );
+  }
+
+  const renderTickerItem = (item: TickerItem, key: string) => {
+    const isPositive = item.quote.d >= 0;
+    return (
+      <div key={key} className="ticker-item flex items-center space-x-4 px-4">
+        <div>
+          <p className="text-white font-semibold">{item.symbol}</p>
+          <p className="text-sm text-gray-400">${item.quote.c.toFixed(2)}</p>
+        </div>
+        <div className="flex items-center">
+          {isPositive ? (
+            <ArrowUp className="w-4 h-4 text-green-400 mr-1" />
+          ) : (
+            <ArrowDown className="w-4 h-4 text-red-400 mr-1" />
+          )}
+          <p className={`text-sm ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+            {isPositive ? '+' : ''}{item.quote.dp.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  // Create a continuous ticker by duplicating items multiple times
+  const renderTickerContent = () => {
+    // Create enough duplicates to ensure continuous scrolling
+    const multiplier = 4; // More duplications for smoother looping
+    const duplicatedItems = [];
+    
+    for (let i = 0; i < multiplier; i++) {
+      tickerItems.forEach((item, idx) => {
+        duplicatedItems.push(renderTickerItem(item, `${item.symbol}-${i}-${idx}`));
+      });
+    }
+    
+    return duplicatedItems;
+  };
 
   return (
-    <div className="bg-[#000a05]/80 backdrop-blur-sm border-y border-green-500/20 py-2 overflow-hidden">
-      <motion.div
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{
-          repeat: Number.POSITIVE_INFINITY,
-          duration: 30,
-          ease: "linear",
-        }}
-        className="flex whitespace-nowrap"
-      >
-        {[...stocks, ...stocks].map((stock, index) => (
-          <div key={index} className="flex items-center mx-4">
-            <span className="font-semibold text-white">{stock.symbol}</span>
-            <span className="ml-2 text-gray-300">${stock.price.toFixed(2)}</span>
-            <span className={`ml-2 ${stock.change >= 0 ? "text-green-400" : "text-red-400"}`}>
-              {stock.change >= 0 ? "+" : ""}
-              {stock.change.toFixed(2)}%
-            </span>
-          </div>
-        ))}
-      </motion.div>
+    <div className="bg-[#000a05]/80 backdrop-blur-sm border border-green-500/20 rounded-lg p-4 overflow-hidden">
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-25%));
+          }
+        }
+        
+        .ticker-container {
+          overflow: hidden;
+          width: 100%;
+          position: relative;
+        }
+        
+        .ticker-track {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: scroll 15s linear infinite;
+        }
+
+        /* Ensure no gaps between items */
+        .ticker-item {
+          flex-shrink: 0;
+        }
+      `}</style>
+      
+      <div className="ticker-container">
+        <div className="ticker-track">
+          {renderTickerContent()}
+        </div>
+      </div>
     </div>
-  )
+  );
 }
-
-export default MarketTicker
-

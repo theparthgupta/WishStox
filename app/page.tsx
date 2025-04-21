@@ -59,7 +59,7 @@ export default function HomePage() {
               Login
             </Button>
           </Link>
-          <Link href="/auth/signup">
+          <Link href="/main">
             <Button
               className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
               style={{
