@@ -47,7 +47,7 @@ export const FinnhubService = {
     }
   },
 
-  async getStockSymbols(exchange: string = 'US'): Promise<any[]> {
+  async getStockSymbols(exchange: string = 'US'): Promise<unknown[]> {
     try {
       const response = await finnhubClient.get(`/stock/symbol?exchange=${exchange}`);
       return response.data;

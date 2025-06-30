@@ -2,7 +2,6 @@
 
 import React from 'react';
 import MarketTicker from '@/components/market-ticker';
-import { FinnhubService } from '@/app/services/finnhub';
 import { LineChart, TrendingUp, Newspaper, Settings } from 'lucide-react';
 import Link from 'next/link';
 
