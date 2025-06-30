@@ -90,7 +90,7 @@ export default function MarketTicker() {
   const renderTickerContent = () => {
     // Create enough duplicates to ensure continuous scrolling
     const multiplier = 4; // More duplications for smoother looping
-    const duplicatedItems = [];
+    const duplicatedItems: React.ReactElement[] = [];
     
     for (let i = 0; i < multiplier; i++) {
       tickerItems.forEach((item, idx) => {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import MarketTicker from '@/components/market-ticker';
-import StockNewsComponent from '@/app/components/news';
+import { FinnhubService } from '@/app/services/finnhub';
 import { LineChart, TrendingUp, Newspaper, Settings } from 'lucide-react';
 import Link from 'next/link';
 
@@ -44,18 +44,11 @@ export default function Dashboard() {
         </div>
       </header>
       
-    
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-      
         {/* Market Ticker */}
         <div className="mb-8">
           <MarketTicker />
-        </div>
-
-        {/* Latest Market News */}
-        <div className="mb-8">
-          <StockNewsComponent />
         </div>
       </main>
     </div>

@@ -3,11 +3,14 @@ import axios from 'axios';
 const FINNHUB_API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
 const BASE_URL = 'https://finnhub.io/api/v1';
 
+if (!FINNHUB_API_KEY) {
+  throw new Error('Finnhub API key is not defined');
+}
+
 const finnhubClient = axios.create({
   baseURL: BASE_URL,
-  params: {
-    token: FINNHUB_API_KEY
-  }
+  params: { token: FINNHUB_API_KEY },
+  timeout: 10000, // 10 second timeout
 });
 
 export interface StockQuote {
@@ -21,36 +24,26 @@ export interface StockQuote {
   t: number;  // Timestamp
 }
 
-export interface MarketNews {
-  category: string;
-  datetime: number;
-  headline: string;
-  id: number;
-  image: string;
-  related: string;
-  source: string;
-  summary: string;
-  url: string;
+export class FinnhubError extends Error {
+  constructor(message: string, public statusCode?: number) {
+    super(message);
+    this.name = 'FinnhubError';
+  }
 }
 
 export const FinnhubService = {
   async getStockQuote(symbol: string): Promise<StockQuote> {
     try {
-      const response = await finnhubClient.get(`/quote?symbol=${symbol}`);
+      const response = await finnhubClient.get<StockQuote>(`/quote?symbol=${symbol}`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching stock quote:', error);
-      throw error;
-    }
-  },
-
-  async getMarketNews(): Promise<MarketNews[]> {
-    try {
-      const response = await finnhubClient.get('/news?category=general');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching market news:', error);
-      throw error;
+      if (axios.isAxiosError(error)) {
+        throw new FinnhubError(
+          `Failed to fetch stock quote for ${symbol}: ${error.message}`,
+          error.response?.status
+        );
+      }
+      throw new FinnhubError(`Failed to fetch stock quote for ${symbol}`);
     }
   },
 
@@ -63,11 +56,7 @@ export const FinnhubService = {
       throw error;
     }
   }
-}; 
-if (typeof window !== "undefined") {
-  ;(window as any).FinnhubService = FinnhubService
-}
-// services/finnhub.ts
+};
 
 export interface SectorPerformance {
   sector: string
