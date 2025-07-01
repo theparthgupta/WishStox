@@ -18,7 +18,6 @@ const FinanceChart = () => {
   const lastUpdateTimeRef = useRef<number>(0)
   const targetPriceRef = useRef<number>(247.85)
   const currentPriceRef = useRef<number>(247.85)
-  const minPriceChangeRef = useRef<number>(2.0)
   const velocityRef = useRef(0.01)
   const lastTrendChangeRef = useRef(performance.now())
   const lastUpdateRef = useRef(performance.now())

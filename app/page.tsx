@@ -36,6 +36,9 @@ export default function HomePage() {
           <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors">
             Features
           </Link>
+          <Link href="#reviews" className="text-gray-300 hover:text-green-400 transition-colors">
+            Reviews
+          </Link>
           <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors">
             About
           </Link>
@@ -129,12 +132,13 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto py-20 px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Powered by Advanced AI</h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Our platform leverages cutting-edge artificial intelligence to provide you with the most accurate trading
-            signals.
+      <section id="features" className="w-full px-4 py-12 flex flex-col items-center justify-center bg-transparent">
+        <div className="w-full max-w-3xl mx-auto flex flex-col items-center mb-16">
+          <h2 className="text-6xl md:text-6xl font-extrabold text-center bg-gradient-to-r from-gray-100 via-white to-gray-400 bg-clip-text text-transparent drop-shadow-xl mb-8 leading-tight">
+            Powered by Advanced AI
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-200 text-center max-w-2xl mb-10 font-medium">
+            Our platform leverages cutting-edge artificial intelligence to provide you with the most accurate trading signals.
           </p>
         </div>
 
@@ -176,11 +180,13 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-[#001208]/80">
+      <section id="reviews" className="py-20 bg-[#001208]/80">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Traders Say</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+            <h2 className="text-6xl md:text-6xl font-extrabold text-center bg-gradient-to-r from-gray-100 via-white to-gray-400 bg-clip-text text-transparent drop-shadow-xl mb-8 leading-tight">
+              What Our Traders Say
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Join thousands of successful traders who have transformed their trading strategy with our AI platform.
             </p>
           </div>
@@ -192,12 +198,6 @@ export default function HomePage() {
       {/* Contact Section (Waiting List) */}
       <section id="join" className="py-20 bg-[#001208]/80">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Join the Waiting List</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Be the first to know when WishStox launches! Enter your email below to join our waiting list.
-            </p>
-          </div>
           <div className="flex justify-center">
             <WaitingList />
           </div>
@@ -228,6 +228,11 @@ export default function HomePage() {
                 <li>
                   <Link href="#" className="text-gray-400 hover:text-green-400 text-sm">
                     Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#reviews" className="text-gray-400 hover:text-green-400 text-sm">
+                    Reviews
                   </Link>
                 </li>
                 <li>

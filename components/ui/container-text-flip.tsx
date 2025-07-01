@@ -27,15 +27,10 @@ export function ContainerTextFlip({
 }: ContainerTextFlipProps) {
   const id = useId();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [width, setWidth] = useState(100);
   const textRef = React.useRef(null);
 
   const updateWidthForWord = () => {
     if (textRef.current) {
-      // Add some padding to the text width (30px on each side)
-      // @ts-ignore
-      const textWidth = textRef.current.scrollWidth + 30;
-      setWidth(textWidth);
     }
   };
 
