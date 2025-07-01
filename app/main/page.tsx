@@ -4,6 +4,7 @@ import React from 'react';
 import MarketTicker from '@/components/market-ticker';
 import { LineChart, TrendingUp, Newspaper, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { SignOutButton } from "@clerk/nextjs";
 
 export default function Dashboard() {
   return (
@@ -38,6 +39,9 @@ export default function Dashboard() {
                 <Settings className="w-5 h-5" />
                 <span>Settings</span>
               </Link>
+              <SignOutButton>
+                <button className="ml-6 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer">Logout</button>
+              </SignOutButton>
             </nav>
           </div>
         </div>

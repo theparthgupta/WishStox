@@ -49,27 +49,14 @@ export default function HomePage() {
           <Link href="/auth/login">
             <Button
               variant="outline"
-              className="hidden md:flex border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60"
+              className="border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60 cursor-pointer"
               style={{
                 borderColor: "rgba(0, 126, 51, 0.4)",
-                color: "#00c853",
-                backgroundColor: "transparent",
+                color: "white",
+                backgroundColor: "green",
               }}
             >
               Login
-            </Button>
-          </Link>
-          <Link href="/main">
-            <Button
-              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
-              style={{
-                background: "linear-gradient(to right, #007e33, #004d25)",
-                color: "white",
-                border: "none",
-                boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
-              }}
-            >
-              Start Trading
             </Button>
           </Link>
         </div>
