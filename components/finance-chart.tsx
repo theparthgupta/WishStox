@@ -19,6 +19,9 @@ const FinanceChart = () => {
   const targetPriceRef = useRef<number>(247.85)
   const currentPriceRef = useRef<number>(247.85)
   const minPriceChangeRef = useRef<number>(2.0)
+  const velocityRef = useRef(0.01)
+  const lastTrendChangeRef = useRef(performance.now())
+  const lastUpdateRef = useRef(performance.now())
 
   // Initialize and start animation
   useEffect(() => {
@@ -34,39 +37,46 @@ const FinanceChart = () => {
 
     // Start the animation
     lastUpdateTimeRef.current = performance.now()
+    lastTrendChangeRef.current = performance.now()
+    lastUpdateRef.current = performance.now()
 
     // Animation function that updates prices and chart data
     const updatePrices = () => {
       const now = performance.now()
-      const deltaTime = now - lastUpdateTimeRef.current
 
-      // Generate new target price every 3000ms
-      if (deltaTime > 3000) {
-        // Generate a random direction (up or down)
-        const direction = Math.random() > 0.5 ? 1 : -1
+      // Only update every 80ms for realism
+      if (now - lastUpdateRef.current > 80) {
+        // Change trend every 2–5 seconds
+        if (now - lastTrendChangeRef.current > 2000 + Math.random() * 3000) {
+          velocityRef.current = (Math.random() - 0.5) * 0.7; // less abrupt
+          lastTrendChangeRef.current = now;
+        }
 
-        // Generate a random change amount, at least $2, up to $8
-        const changeAmount = (Math.random() * 6 + minPriceChangeRef.current) * direction
+        // Add smaller noise
+        const noise = (Math.random() - 0.5) * 0.02;
+        velocityRef.current += noise;
+        velocityRef.current = Math.max(Math.min(velocityRef.current, 1), -1);
 
-        // Set the new target price
-        targetPriceRef.current = Math.max(200, Math.min(300, currentPriceRef.current + changeAmount))
-        setPriceChange(Number.parseFloat(changeAmount.toFixed(2)))
-        lastUpdateTimeRef.current = now
+        // Update price
+        currentPriceRef.current = currentPriceRef.current + velocityRef.current;
+        // Bounce at boundaries
+        if (currentPriceRef.current <= 200 || currentPriceRef.current >= 300) {
+          velocityRef.current = -velocityRef.current * 0.7; // reverse and dampen
+          currentPriceRef.current = Math.max(200, Math.min(300, currentPriceRef.current));
+        }
+        setCurrentPrice(Number.parseFloat(currentPriceRef.current.toFixed(2)));
+        setPriceChange(velocityRef.current);
+
+        // Moving average for smoothness
+        const prev = priceHistoryRef.current[priceHistoryRef.current.length - 1] || currentPriceRef.current;
+        const prev2 = priceHistoryRef.current[priceHistoryRef.current.length - 2] || currentPriceRef.current;
+        const smoothPrice = (currentPriceRef.current + prev + prev2) / 3;
+        const newHistory = [...priceHistoryRef.current.slice(1), smoothPrice];
+        priceHistoryRef.current = newHistory;
+
+        lastUpdateRef.current = now;
       }
 
-      // Smoothly interpolate current price towards target price
-      currentPriceRef.current = currentPriceRef.current + (targetPriceRef.current - currentPriceRef.current) * 0.01
-      const displayPrice = Number.parseFloat(currentPriceRef.current.toFixed(2))
-      setCurrentPrice(displayPrice)
-
-      // Update price history - shift array and add new price, but do it more slowly
-      if (deltaTime % 100 < 16) {
-        // 16ms is roughly one frame at 60fps
-        const newHistory = [...priceHistoryRef.current.slice(1), currentPriceRef.current]
-        priceHistoryRef.current = newHistory
-      }
-
-      // Continue animation
       animationRef.current = requestAnimationFrame(updatePrices)
     }
 
@@ -80,7 +90,7 @@ const FinanceChart = () => {
         animationRef.current = null
       }
     }
-  }, [priceChange])
+  }, [])
 
   // Draw the chart - separate from the data updates
   useEffect(() => {

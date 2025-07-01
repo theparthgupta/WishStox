@@ -48,13 +48,6 @@ export default function WaitingList() {
   return (
     <form onSubmit={handleSubmit} className="bg-[#000a05]/80 border border-green-900/40 rounded-xl p-8 flex flex-col gap-4 max-w-md w-full shadow-lg">
       <input
-        type="text"
-        placeholder="Your Name (optional)"
-        className="bg-black/40 border border-green-900/40 rounded px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      <input
         type="email"
         placeholder="Your Email"
         className="bg-black/40 border border-green-900/40 rounded px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"

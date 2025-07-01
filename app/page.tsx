@@ -9,13 +9,14 @@ import FeatureCard from "@/components/feature-card"
 import TestimonialSlider from "@/components/testimonial-slider"
 import MarketTicker from "@/components/market-ticker"
 import FinanceChart from "@/components/finance-chart"
-import ShootingStars from "@/components/shooting-stars"
+import { ShootingStars } from "@/components/shooting-stars"
 import WaitingList from "@/components/waiting-list"
+import { ContainerTextFlip } from "@/components/ui/container-text-flip"
 
 export default function HomePage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#001a0d] to-black text-white">
+    <div className="relative min-h-screen bg-gradient-to-b from-black via-[#001a0d] to-black text-white">
       {/* Background effects */}
       <ShootingStars />
 
@@ -32,20 +33,11 @@ export default function HomePage() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
-            Home
-          </Link>
           <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors">
             Features
           </Link>
-          <Link href="#pricing" className="text-gray-300 hover:text-green-400 transition-colors">
-            Pricing
-          </Link>
           <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors">
             About
-          </Link>
-          <Link href="#contact" className="text-gray-300 hover:text-green-400 transition-colors">
-            Contact
           </Link>
         </nav>
 
@@ -63,20 +55,14 @@ export default function HomePage() {
       {mobileNavOpen && (
         <div className="md:hidden fixed inset-0 bg-black/90 z-30 flex flex-col items-center justify-center gap-8 animate-fade-in">
           <nav className="flex flex-col items-center gap-6 text-xl">
-            <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              Home
-            </Link>
             <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
               Features
-            </Link>
-            <Link href="#pricing" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              Pricing
             </Link>
             <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
               About
             </Link>
-            <Link href="#contact" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              Contact
+            <Link href="#join" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              Join
             </Link>
           </nav>
         </div>
@@ -88,15 +74,20 @@ export default function HomePage() {
           <div className="space-y-8">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
               AI-Powered Stock Trading Signals,{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-500">
-                In Real-Time.
+              <span className="text-green-400">
+                <ContainerTextFlip words={[
+                  "In Real-Time.",
+                  "with Accuracy.",
+                  "for Investors.",
+                  "for Your Portfolio."
+                ]} />
               </span>
             </h1>
             <p className="text-xl text-gray-300">
               Leverage AI algorithms to maximize your market potential with actionable insights.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/auth/signup">
+              <Link href="#join">
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-none shadow-lg shadow-green-900/30"
@@ -107,21 +98,23 @@ export default function HomePage() {
                     boxShadow: "0 4px 14px 0 rgba(0, 77, 37, 0.3)",
                   }}
                 >
-                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                  Join Waiting List <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-green-600 text-green-400 hover:bg-green-950/50"
-                style={{
-                  borderColor: "#007e33",
-                  color: "#00c853",
-                  backgroundColor: "transparent",
-                }}
-              >
-                Learn More
-              </Button>
+              <Link href="#about">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-green-600 text-green-400 hover:bg-green-950/50"
+                  style={{
+                    borderColor: "#007e33",
+                    color: "#00c853",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -197,7 +190,7 @@ export default function HomePage() {
       </section>
 
       {/* Contact Section (Waiting List) */}
-      <section id="contact" className="py-20 bg-[#001208]/80">
+      <section id="join" className="py-20 bg-[#001208]/80">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Join the Waiting List</h2>
@@ -243,13 +236,8 @@ export default function HomePage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#pricing" className="text-gray-400 hover:text-green-400 text-sm">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#contact" className="text-gray-400 hover:text-green-400 text-sm">
-                    Contact
+                  <Link href="#join" className="text-gray-400 hover:text-green-400 text-sm">
+                    Join
                   </Link>
                 </li>
               </ul>
