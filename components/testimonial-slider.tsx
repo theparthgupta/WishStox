@@ -13,7 +13,7 @@ const testimonials = [
     role: "Day Trader",
     content:
       "The AI signals have completely transformed my trading strategy. I've seen a 43% increase in my portfolio since I started using WishStox.",
-    avatar: "/placeholder1.svg?height=80&width=80",
+    avatar: "/placeholder1.png",
     rating: 5,
     stats: {
       returns: "+43%",
@@ -27,7 +27,7 @@ const testimonials = [
     role: "Investment Analyst",
     content:
       "As a professional analyst, I was skeptical at first. But the predictive accuracy of WishStox AI has impressed even the most experienced traders on our team.",
-    avatar: "/placeholder2.svg?height=80&width=80",
+    avatar: "/placeholder2.png",
     rating: 5,
     stats: {
       returns: "+28%",
@@ -41,7 +41,7 @@ const testimonials = [
     role: "Retail Investor",
     content:
       "I'm new to trading, and WishStox has given me the confidence to make informed decisions. The risk management tools are especially helpful.",
-    avatar: "/placeholder3.svg?height=80&width=80",
+    avatar: "/placeholder3.png",
     rating: 4,
     stats: {
       returns: "+19%",

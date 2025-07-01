@@ -12,6 +12,7 @@ import ContactForm from "@/components/contact-form"
 import MarketTicker from "@/components/market-ticker"
 import FinanceChart from "@/components/finance-chart"
 import ShootingStars from "@/components/shooting-stars"
+import WaitingList from "@/components/waiting-list"
 
 export default function HomePage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -58,22 +59,6 @@ export default function HomePage() {
         >
           {mobileNavOpen ? <X className="h-7 w-7 text-green-400" /> : <Menu className="h-7 w-7 text-green-400" />}
         </button>
-
-        <div className="hidden md:flex items-center gap-3">
-          <Link href="/auth/login">
-            <Button
-              variant="outline"
-              className="border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60 cursor-pointer"
-              style={{
-                borderColor: "rgba(0, 126, 51, 0.4)",
-                color: "white",
-                backgroundColor: "green",
-              }}
-            >
-              Login
-            </Button>
-          </Link>
-        </div>
       </header>
 
       {/* Mobile Nav Menu */}
@@ -94,19 +79,6 @@ export default function HomePage() {
             </Link>
             <Link href="#contact" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
               Contact
-            </Link>
-            <Link href="/auth/login" className="w-full" onClick={() => setMobileNavOpen(false)}>
-              <Button
-                variant="outline"
-                className="w-full border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60 cursor-pointer"
-                style={{
-                  borderColor: "rgba(0, 126, 51, 0.4)",
-                  color: "white",
-                  backgroundColor: "green",
-                }}
-              >
-                Login
-              </Button>
             </Link>
           </nav>
         </div>
@@ -276,106 +248,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section (Waiting List) */}
       <section id="contact" className="py-20 bg-[#001208]/80">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Join the Waiting List</h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Have questions about our platform? Our team is ready to help you get started.
+              Be the first to know when WishStox launches! Enter your email below to join our waiting list.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            <div className="lg:col-span-2 space-y-8">
-              <div className="bg-[#000a05]/80 backdrop-blur-sm p-6 rounded-xl border border-green-900/40 hover:border-green-700/40 transition-colors">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-green-900/40 flex items-center justify-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Email Us</h3>
-                    <p className="text-green-400">support@wishstox.ai</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">
-                  Our support team is available 24/7 to answer your questions and help you get started.
-                </p>
-              </div>
-
-              <div className="bg-[#000a05]/80 backdrop-blur-sm p-6 rounded-xl border border-green-900/40 hover:border-green-700/40 transition-colors">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-green-900/40 flex items-center justify-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Call Us</h3>
-                    <p className="text-green-400">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">
-                  Speak directly with our trading specialists for personalized assistance.
-                </p>
-              </div>
-
-              <div className="bg-[#000a05]/80 backdrop-blur-sm p-6 rounded-xl border border-green-900/40 hover:border-green-700/40 transition-colors">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-green-900/40 flex items-center justify-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Live Chat</h3>
-                    <p className="text-green-400">Available 24/7</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">
-                  Chat with our AI assistant or connect with a live agent for immediate support.
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:col-span-3">
-              <ContactForm />
-            </div>
+          <div className="flex justify-center">
+            <WaitingList />
           </div>
         </div>
       </section>
@@ -419,16 +302,6 @@ export default function HomePage() {
                 <li>
                   <Link href="#contact" className="text-gray-400 hover:text-green-400 text-sm">
                     Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/login" className="text-gray-400 hover:text-green-400 text-sm">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/signup" className="text-gray-400 hover:text-green-400 text-sm">
-                    Sign Up
                   </Link>
                 </li>
               </ul>
