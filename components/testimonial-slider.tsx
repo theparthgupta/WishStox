@@ -1,201 +1,245 @@
-"use client"
+// ... existing code ...
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
-import Image from "next/image"
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+type Testimonial = {
+  quote: string;
+  name: string;
+  designation: string;
+  src: string;
+  profit: string;
+  winRate: string;
+  trades: string;
+  rating: number;
+};
 
-const testimonials = [
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex items-center gap-0.5 mb-1">
+    {[1, 2, 3, 4, 5].map((star) => (
+      <svg
+        key={star}
+        className={`w-4 h-4 ${star <= rating ? 'text-yellow-400' : 'text-gray-500'}`}
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ))}
+  </div>
+);
+
+const QuoteIcon = () => (
+  <svg className="w-7 h-7 text-green-400 mr-2 inline-block align-top" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M9 5H5v6h4v4H3V9a4 4 0 0 1 4-4h2zm12 0h-4v6h4v4h-6V9a4 4 0 0 1 4-4h2z" />
+  </svg>
+);
+
+const testimonials: Testimonial[] = [
   {
-    id: 1,
-    name: "Alex Thompson",
-    role: "Day Trader",
-    content:
-      "The AI signals have completely transformed my trading strategy. I've seen a 43% increase in my portfolio since I started using WishStox.",
-    avatar: "/placeholder1.png",
+    quote: "WishStox has completely changed the way I trade. The AI signals are spot on! My portfolio is up significantly, and I feel more confident in my decisions. The support team is also very responsive.",
+    name: "Alex Johnson",
+    designation: "Professional Trader",
+    src: "/placeholder1.png",
+    profit: "+21.2%",
+    winRate: "71%",
+    trades: "84",
     rating: 5,
-    stats: {
-      returns: "+43%",
-      trades: "156",
-      winRate: "78%",
-    },
   },
   {
-    id: 2,
-    name: "Sarah Chen",
-    role: "Investment Analyst",
-    content:
-      "As a professional analyst, I was skeptical at first. But the predictive accuracy of WishStox AI has impressed even the most experienced traders on our team.",
-    avatar: "/placeholder2.png",
+    quote: "I love the real-time insights. My portfolio has never looked better. The platform's analytics and risk management tools are a game changer. Highly recommended for anyone serious about investing.",
+    name: "Maria Rodriguez",
+    designation: "Investor",
+    src: "/placeholder2.png",
+    profit: "+18.7%",
+    winRate: "76%",
+    trades: "60",
     rating: 5,
-    stats: {
-      returns: "+28%",
-      trades: "342",
-      winRate: "81%",
-    },
   },
   {
-    id: 3,
-    name: "Michael Rodriguez",
-    role: "Retail Investor",
-    content:
-      "I'm new to trading, and WishStox has given me the confidence to make informed decisions. The risk management tools are especially helpful.",
-    avatar: "/placeholder3.png",
+    quote: "The best platform for anyone serious about stock trading. The AI recommendations are accurate and timely. I especially appreciate the detailed trade breakdowns and learning resources.",
+    name: "Samuel Lee",
+    designation: "Day Trader",
+    src: "/placeholder3.png",
+    profit: "+20.5%",
+    winRate: "85%",
+    trades: "107",
     rating: 4,
-    stats: {
-      returns: "+19%",
-      trades: "87",
-      winRate: "72%",
-    },
   },
-]
+];
 
-const TestimonialSlider = () => {
-  const [current, setCurrent] = useState(0)
-  const [autoplay, setAutoplay] = useState(true)
+export const AnimatedTestimonials = ({
+  testimonials,
+  autoplay = false,
+}: {
+  testimonials: Testimonial[];
+  autoplay?: boolean;
+}) => {
+  const [active, setActive] = useState(0);
+
+  const handleNext = () => {
+    setActive((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const handlePrev = () => {
+    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const isActive = (index: number) => {
+    return index === active;
+  };
 
   useEffect(() => {
-    if (!autoplay) return
+    if (autoplay) {
+      const interval = setInterval(handleNext, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [autoplay]);
 
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [autoplay])
-
-  const next = () => {
-    setAutoplay(false)
-    setCurrent((prev) => (prev + 1) % testimonials.length)
-  }
-
-  const prev = () => {
-    setAutoplay(false)
-    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
-
-  const renderStars = (rating: number) => {
-    return Array(5)
-      .fill(0)
-      .map((_, i) => (
-        <svg
-          key={i}
-          className={`h-5 w-5 ${i < rating ? "text-green-400" : "text-gray-600"}`}
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      ))
-  }
-
+  const randomRotateY = () => {
+    return Math.floor(Math.random() * 21) - 10;
+  };
   return (
-    <div className="relative max-w-5xl mx-auto">
-      <div className="absolute inset-0 flex items-center justify-between z-10 pointer-events-none">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-12 w-12 rounded-full bg-slate-900/50 backdrop-blur-sm text-white hover:bg-green-500/20 pointer-events-auto"
-          onClick={prev}
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-12 w-12 rounded-full bg-slate-900/50 backdrop-blur-sm text-white hover:bg-green-500/20 pointer-events-auto"
-          onClick={next}
-        >
-          <ChevronRight className="h-6 w-6" />
-        </Button>
-      </div>
-
-      <div className="overflow-hidden relative rounded-xl bg-[#000a05]/80 backdrop-blur-sm border border-green-500/20 p-8 md:p-12">
-        <div className="absolute top-6 right-6 text-green-400 opacity-30">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-16 w-16"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-            />
-          </svg>
+    <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+        <div>
+          <div className="relative h-80 w-full">
+            <AnimatePresence>
+              {testimonials.map((testimonial: Testimonial, index: number) => (
+                <motion.div
+                  key={testimonial.src}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.9,
+                    z: -100,
+                    rotate: randomRotateY(),
+                  }}
+                  animate={{
+                    opacity: isActive(index) ? 1 : 0.7,
+                    scale: isActive(index) ? 1 : 0.95,
+                    z: isActive(index) ? 0 : -100,
+                    rotate: isActive(index) ? 0 : randomRotateY(),
+                    zIndex: isActive(index)
+                      ? 40
+                      : testimonials.length + 2 - index,
+                    y: isActive(index) ? [0, -80, 0] : 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.9,
+                    z: 100,
+                    rotate: randomRotateY(),
+                  }}
+                  transition={{
+                    duration: 0.4,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 origin-bottom"
+                >
+                  <img
+                    src={testimonial.src}
+                    alt={testimonial.name}
+                    width={500}
+                    height={500}
+                    draggable={false}
+                    className="h-full w-full rounded-3xl object-cover object-center"
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
-
-        <AnimatePresence mode="wait">
+        <div className="flex flex-col justify-between py-4 h-full">
           <motion.div
-            key={current}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="md:flex items-center gap-8"
-          >
-            <div className="mb-8 md:mb-0 md:w-1/3 flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-green-500/50 relative">
-              <Image
-                src={testimonials[current].avatar || "/placeholder.svg"}
-                alt={testimonials[current].name}
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-              />
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-blue-900/20" />
-              </div>
-              <h4 className="text-xl font-semibold text-white text-center">{testimonials[current].name}</h4>
-              <p className="text-green-400 text-center mb-2">{testimonials[current].role}</p>
-              <div className="flex mb-4">{renderStars(testimonials[current].rating)}</div>
-
-              <div className="grid grid-cols-3 gap-4 w-full">
-                <div className="bg-[#000a05]/80 p-2 rounded-lg border border-green-500/20 text-center">
-                  <p className="text-xs text-gray-400">Returns</p>
-                  <p className="text-green-400 font-bold">{testimonials[current].stats.returns}</p>
-                </div>
-                <div className="bg-[#000a05]/80 p-2 rounded-lg border border-green-500/20 text-center">
-                  <p className="text-xs text-gray-400">Trades</p>
-                  <p className="text-white font-bold">{testimonials[current].stats.trades}</p>
-                </div>
-                <div className="bg-[#000a05]/80 p-2 rounded-lg border border-green-500/20 text-center">
-                  <p className="text-xs text-gray-400">Win Rate</p>
-                  <p className="text-green-400 font-bold">{testimonials[current].stats.winRate}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="md:w-2/3">
-            <p className="text-xl md:text-2xl text-gray-200 relative z-10 leading-relaxed">
-              &quot;{testimonials[current].content}&quot;
-            </p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-dark-green-700 opacity-70" />
-      </div>
-
-      <div className="flex justify-center mt-6 gap-2">
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              setAutoplay(false)
-              setCurrent(index)
+            key={active}
+            initial={{
+              y: 20,
+              opacity: 0,
             }}
-            className={`w-3 h-3 rounded-full ${index === current ? "bg-green-500" : "bg-slate-700"} transition-colors`}
-            aria-label={`Go to testimonial ${index + 1}`}
-          />
-        ))}
+            animate={{
+              y: 0,
+              opacity: 1,
+            }}
+            exit={{
+              y: -20,
+              opacity: 0,
+            }}
+            transition={{
+              duration: 0.2,
+              ease: "easeInOut",
+            }}
+            className="flex flex-col h-full justify-center"
+          >
+            <div className="flex items-center gap-4 mb-1">
+              <h3 className="text-2xl font-bold text-white dark:text-white">
+                {testimonials[active].name}
+              </h3>
+              <StarRating rating={testimonials[active].rating} />
+            </div>
+            <p className="text-sm text-gray-300 dark:text-neutral-500 mb-2">
+              {testimonials[active].designation}
+            </p>
+            <div className="flex gap-8 mb-4">
+              <div className="flex flex-col items-center">
+                <span className="text-green-400 font-bold text-lg">{testimonials[active].profit}</span>
+                <span className="text-xs text-gray-400">Profit</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-green-300 font-bold text-lg">{testimonials[active].winRate}</span>
+                <span className="text-xs text-gray-400">Win Rate</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-green-200 font-bold text-lg">{testimonials[active].trades}</span>
+                <span className="text-xs text-gray-400">Trades</span>
+              </div>
+            </div>
+            <motion.p className="mt-4 text-lg text-gray-300 dark:text-neutral-300 leading-relaxed">
+              <QuoteIcon />
+              {testimonials[active].quote.split(" ").map((word: string, index: number) => (
+                <motion.span
+                  key={index}
+                  initial={{
+                    filter: "blur(10px)",
+                    opacity: 0,
+                    y: 5,
+                  }}
+                  animate={{
+                    filter: "blur(0px)",
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                    ease: "easeInOut",
+                    delay: 0.02 * index,
+                  }}
+                  className="inline-block"
+                >
+                  {word}&nbsp;
+                </motion.span>
+              ))}
+            </motion.p>
+          </motion.div>
+          <div className="flex gap-4 pt-12 md:pt-0 mt-8">
+            <button
+              onClick={handlePrev}
+              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+            >
+              <IconArrowLeft className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:rotate-12 dark:text-neutral-400" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+            >
+              <IconArrowRight className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:-rotate-12 dark:text-neutral-400" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
+};
+
+export default function TestimonialSlider() {
+  return <AnimatedTestimonials testimonials={testimonials} autoplay />;
 }
-
-export default TestimonialSlider
-

@@ -84,7 +84,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-gray-300">
-              Leverage AI algorithms to maximize your market potential with actionable insights.
+              Leverage AI features to maximize your market potential with actionable insights.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="#join">

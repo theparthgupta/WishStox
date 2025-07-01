@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
-import ShootingStars from "@/components/shooting-stars"
+import {ShootingStars} from "@/components/shooting-stars"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
