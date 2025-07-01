@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 export default function WaitingList() {
   const [name, setName] = useState("");
@@ -9,7 +8,6 @@ export default function WaitingList() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [count, setCount] = useState<number | null>(null);
-  const [spot, setSpot] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,14 +33,13 @@ export default function WaitingList() {
     }
     setSubmitted(true);
     setCount(data.count);
-    setSpot(data.spot);
   }
 
   if (submitted) {
     return (
       <div className="bg-green-900/20 border border-green-700 rounded-xl p-8 text-center max-w-md w-full">
         <h3 className="text-2xl font-bold text-green-400 mb-2">Thank you!</h3>
-        <p className="text-gray-200 mb-2">You've been added to the waiting list. We'll keep you updated!</p>
+        <p className="text-gray-200 mb-2">You&apos;ve been added to the waiting list. We&apos;ll keep you updated!</p>
         {count && <p className="text-gray-400 mt-2">Join <b>{count}</b> others on the waiting list!</p>}
       </div>
     );

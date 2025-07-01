@@ -80,7 +80,7 @@ const FinanceChart = () => {
         animationRef.current = null
       }
     }
-  }, [])
+  }, [priceChange])
 
   // Draw the chart - separate from the data updates
   useEffect(() => {
@@ -260,7 +260,7 @@ const FinanceChart = () => {
     return () => {
       cancelAnimationFrame(renderAnimationId)
     }
-  }, [])
+  }, [priceChange])
 
   return (
     <div

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert into Supabase
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('waiting_list')
       .insert([{ name, email }])
       .select('id, email, created_at');
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, count, spot });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Server error.' }, { status: 500 });
   }
 }
