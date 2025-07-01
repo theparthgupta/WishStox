@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
-import { ArrowRight, Zap, LineChart, TrendingUp, Briefcase, Brain } from "lucide-react"
+import { useState } from "react"
+import { ArrowRight, Zap, LineChart, TrendingUp, Briefcase, Brain, Menu, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import FeatureCard from "@/components/feature-card"
@@ -11,13 +14,14 @@ import FinanceChart from "@/components/finance-chart"
 import ShootingStars from "@/components/shooting-stars"
 
 export default function HomePage() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-[#001a0d] to-black text-white">
       {/* Background effects */}
       <ShootingStars />
 
       {/* Header */}
-      <header className="container mx-auto py-6 px-4 flex items-center justify-between">
+      <header className="container mx-auto py-6 px-4 flex items-center justify-between relative z-20">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center animate-pulse-glow">
             <span className="text-white font-bold">WS</span>
@@ -27,6 +31,7 @@ export default function HomePage() {
           </span>
         </div>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
             Home
@@ -45,7 +50,16 @@ export default function HomePage() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMobileNavOpen((open) => !open)}
+        >
+          {mobileNavOpen ? <X className="h-7 w-7 text-green-400" /> : <Menu className="h-7 w-7 text-green-400" />}
+        </button>
+
+        <div className="hidden md:flex items-center gap-3">
           <Link href="/auth/login">
             <Button
               variant="outline"
@@ -61,6 +75,42 @@ export default function HomePage() {
           </Link>
         </div>
       </header>
+
+      {/* Mobile Nav Menu */}
+      {mobileNavOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/90 z-30 flex flex-col items-center justify-center gap-8 animate-fade-in">
+          <nav className="flex flex-col items-center gap-6 text-xl">
+            <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              Home
+            </Link>
+            <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              Features
+            </Link>
+            <Link href="#pricing" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              Pricing
+            </Link>
+            <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              About
+            </Link>
+            <Link href="#contact" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
+              Contact
+            </Link>
+            <Link href="/auth/login" className="w-full" onClick={() => setMobileNavOpen(false)}>
+              <Button
+                variant="outline"
+                className="w-full border-green-600/40 text-green-400 hover:bg-green-950/50 hover:border-green-500/60 cursor-pointer"
+                style={{
+                  borderColor: "rgba(0, 126, 51, 0.4)",
+                  color: "white",
+                  backgroundColor: "green",
+                }}
+              >
+                Login
+              </Button>
+            </Link>
+          </nav>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="container mx-auto py-20 px-4 relative">
