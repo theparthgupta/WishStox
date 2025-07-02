@@ -2,12 +2,11 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { ArrowRight, Zap, LineChart, TrendingUp, Briefcase, Brain, Menu, X } from "lucide-react"
+import { ArrowRight, Menu, X } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBolt, faChartLine, faArrowTrendUp, faBrain, faBriefcase } from "@fortawesome/free-solid-svg-icons"
 
 import { Button } from "@/components/ui/button"
-import FeatureCard from "@/components/feature-card"
 import TestimonialSlider from "@/components/testimonial-slider"
 import MarketTicker from "@/components/market-ticker"
 import FinanceChart from "@/components/finance-chart"

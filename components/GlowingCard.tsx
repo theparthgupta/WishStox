@@ -45,6 +45,8 @@ const GlowingCard: React.FC<GlowingCardProps> = ({
   const textRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    const card = cardRef.current;
+    const text = textRef.current;
     const handleMouseOver = () => {
       if (cardRef.current && textRef.current) {
         cardRef.current.style.backgroundColor = AccentColor;
@@ -52,44 +54,33 @@ const GlowingCard: React.FC<GlowingCardProps> = ({
         0 0 25px ${AccentColor}, 
         0 0 50px ${AccentColor}, 
         0 0 200px ${AccentColor}`;
-        textRef.current.style.color = BackgroundColor;
+        if (textRef.current) {
+          textRef.current.style.color = BackgroundColor;
+        }
       }
     };
-  
     const handleMouseOut = () => {
-      if (cardRef.current && textRef.current) {
-        cardRef.current.style.backgroundColor = BackgroundColor;
-        cardRef.current.style.boxShadow = 'none';
-        textRef.current.style.color = TextColor;
+      if (card && text) {
+        card.style.backgroundColor = BackgroundColor;
+        card.style.boxShadow = 'none';
+        text.style.color = TextColor;
       }
     };
-  
     // Initialize the styles
     handleMouseOut();
-  
-    if (cardRef.current) {
-      cardRef.current.addEventListener('mouseover', handleMouseOver);
-      cardRef.current.addEventListener('mouseout', handleMouseOut);
+    if (card) {
+      card.addEventListener('mouseover', handleMouseOver);
+      card.addEventListener('mouseout', handleMouseOut);
     }
-  
     return () => {
-      if (cardRef.current) {
-        cardRef.current.removeEventListener('mouseover', handleMouseOver);
-        cardRef.current.removeEventListener('mouseout', handleMouseOut);
+      if (card) {
+        card.removeEventListener('mouseover', handleMouseOver);
+        card.removeEventListener('mouseout', handleMouseOut);
       }
     };
   }, [AccentColor, BackgroundColor, TextColor]);  
 
-
-
-const bigInscriptionFontSize = (0.7 * baseWidth + 0.3 * baseHeight) / (baseWidth / (96 * (baseWidth / 387))); // For Big Inscription
-const smallInscriptionFontSize = (0.7 * baseWidth + 0.3 * baseHeight) / (baseWidth / (18 * (baseWidth / 387))); // For Small Inscription
-
-// Calculate margins based on both container dimensions in reverse manner
-const topMarginBigInscription = ((15 / baseHeight) * baseHeight + (15 / baseWidth) * baseWidth); // Average margin for Big Inscription
-const bottomMarginBigInscription = ((-17 / baseHeight) * baseHeight + (-17 / baseWidth) * baseWidth); // Negative margin for Big Inscription
-
-return (
+  return (
     <div
       ref={cardRef}
       style={{
