@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { useState } from "react"
 import { ArrowRight, Zap, LineChart, TrendingUp, Briefcase, Brain, Menu, X } from "lucide-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBolt, faChartLine, faArrowTrendUp, faBrain, faBriefcase } from "@fortawesome/free-solid-svg-icons"
 
 import { Button } from "@/components/ui/button"
 import FeatureCard from "@/components/feature-card"
@@ -12,6 +14,7 @@ import FinanceChart from "@/components/finance-chart"
 import { ShootingStars } from "@/components/shooting-stars"
 import WaitingList from "@/components/waiting-list"
 import { ContainerTextFlip } from "@/components/ui/container-text-flip"
+import GlowingCard from "@/components/GlowingCard"
 
 export default function HomePage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -142,39 +145,71 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <FeatureCard
-            icon={<Zap className="h-10 w-10 text-green-400" />}
-            title="In-depth Analysis in Seconds"
-            description="Our AI analyzes thousands of data points in seconds to provide you with comprehensive market insights."
-            bgColor="from-green-900/30 to-green-900/20"
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-center items-stretch">
+          <GlowingCard
+            AccentColor="#50C878"
+            BackgroundColor="#050505"
+            TextColor="#f7f7ff"
+            BorderRadius="1.5em"
+            BorderWidth="3px"
+            Icon={<FontAwesomeIcon icon={faBolt} size="lg" />}
+            TopInscription="In-depth Analysis"
+            BigInscription="AI"
+            SmallInscription="Deep insights, fast."
+            width="250px"
+            height="250px"
           />
-          <FeatureCard
-            icon={<LineChart className="h-10 w-10 text-green-400" />}
-            title="Data Signals"
-            description="Get real-time signals based on market movements, volume analysis, and trend indicators."
-            bgColor="from-green-600/30 to-green-900/20"
+          <GlowingCard
+            AccentColor="#50C878"
+            BackgroundColor="#050505"
+            TextColor="#f0f0f1"
+            BorderRadius="1.5em"
+            BorderWidth="3px"
+            Icon={<FontAwesomeIcon icon={faChartLine} size="lg" />}
+            TopInscription="Data Signals"
+            BigInscription="Real-Time"
+            SmallInscription="Actionable trends."
+            width="250px"
+            height="250px"
           />
-          <FeatureCard
-            icon={<TrendingUp className="h-10 w-10 text-green-300" />}
-            title="Buy & Sell Recommendations"
-            description="Receive clear buy and sell recommendations with entry and exit points based on AI predictions."
-            bgColor="from-green-500/30 to-green-900/20"
+          <GlowingCard
+            AccentColor="#50C878"
+            BackgroundColor="#050505"
+            TextColor="#f0f0f1"
+            BorderRadius="1.5em"
+            BorderWidth="3px"
+            Icon={<FontAwesomeIcon icon={faArrowTrendUp} size="lg" />}
+            TopInscription="Buy & Sell Picks"
+            BigInscription="AI Picks"
+            SmallInscription="Clear signals."
+            width="250px"
+            height="250px"
           />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <FeatureCard
-            icon={<Brain className="h-10 w-10 text-green-400" />}
-            title="AI-Driven Insights"
-            description="Our neural networks continuously learn from market patterns to improve prediction accuracy and provide unique insights."
-            bgColor="from-green-600/30 to-green-900/20"
+          <GlowingCard
+            AccentColor="#50C878"
+            BackgroundColor="#050505"
+            TextColor="#f0f0f1"
+            BorderRadius="1.5em"
+            BorderWidth="3px"
+            Icon={<FontAwesomeIcon icon={faBrain} size="lg" />}
+            TopInscription="AI-Based Insights"
+            BigInscription="Neural"
+            SmallInscription="Smarter forecasts."
+            width="250px"
+            height="250px"
           />
-          <FeatureCard
-            icon={<Briefcase className="h-10 w-10 text-green-400" />}
-            title="Portfolio Analysis"
-            description="Get comprehensive analysis of your portfolio with risk assessment, diversification recommendations, and performance forecasts."
-            bgColor="from-green-900/30 to-green-900/20"
+          <GlowingCard
+            AccentColor="#50C878"
+            BackgroundColor="#050505"
+            TextColor="#f7f7ff"
+            BorderRadius="1.5em"
+            BorderWidth="3px"
+            Icon={<FontAwesomeIcon icon={faBriefcase} size="lg" />}
+            TopInscription="Portfolio Analysis"
+            BigInscription="Insights"
+            SmallInscription="Risk & growth."
+            width="250px"
+            height="250px"
           />
         </div>
       </section>
