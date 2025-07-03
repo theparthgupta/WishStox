@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
+import { NavbarDemo } from "@/components/ui/NavbarDemo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
       >
         <ClerkProvider>
           <div className="w-full min-h-screen overflow-x-hidden">
+            <NavbarDemo />
             {children}
           </div>
           <Analytics />

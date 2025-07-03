@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
-import { ArrowRight, Menu, X } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBolt, faChartLine, faArrowTrendUp, faBrain, faBriefcase } from "@fortawesome/free-solid-svg-icons"
 import { Button } from "@/components/ui/button"
@@ -16,62 +15,10 @@ import GlowingCard from "@/components/GlowingCard"
 import { GlobeDemo } from "@/components/ui/GlobeDemo"
 
 export default function HomePage() {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-black via-[#001a0d] to-black text-white">
       {/* Background effects */}
       <ShootingStars />
-
-      {/* Header */}
-      <header className="container mx-auto py-6 px-4 flex items-center justify-between relative z-20">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center animate-pulse-glow">
-            <span className="text-white font-bold">WS</span>
-          </div>
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-500">
-            WishStox
-          </span>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors">
-            Features
-          </Link>
-          <Link href="#reviews" className="text-gray-300 hover:text-green-400 transition-colors">
-            Reviews
-          </Link>
-          <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors">
-            About
-          </Link>
-        </nav>
-
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
-          aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMobileNavOpen((open) => !open)}
-        >
-          {mobileNavOpen ? <X className="h-7 w-7 text-green-400" /> : <Menu className="h-7 w-7 text-green-400" />}
-        </button>
-      </header>
-
-      {/* Mobile Nav Menu */}
-      {mobileNavOpen && (
-        <div className="md:hidden fixed inset-0 bg-black/90 z-30 flex flex-col items-center justify-center gap-8 animate-fade-in">
-          <nav className="flex flex-col items-center gap-6 text-xl">
-            <Link href="#features" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              Features
-            </Link>
-            <Link href="#about" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              About
-            </Link>
-            <Link href="#join" className="text-gray-300 hover:text-green-400 transition-colors" onClick={() => setMobileNavOpen(false)}>
-              Join
-            </Link>
-          </nav>
-        </div>
-      )}
 
       {/* Hero Section */}
       <section className="container mx-auto py-20 px-4 relative">
