@@ -30,12 +30,15 @@ export default function RootLayout({
         <title>WishStox – AI-Powered Stock Insights</title>
         <meta name="description" content="Join WishStox for AI-powered stock trading signals and insights. Get on the waiting list for early access!" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClerkProvider>
-          {children}
+          <div className="w-full min-h-screen overflow-x-hidden">
+            {children}
+          </div>
           <Analytics />
         </ClerkProvider>
       </body>
