@@ -5,7 +5,6 @@ import { useState } from "react"
 import { ArrowRight, Menu, X } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBolt, faChartLine, faArrowTrendUp, faBrain, faBriefcase } from "@fortawesome/free-solid-svg-icons"
-
 import { Button } from "@/components/ui/button"
 import TestimonialSlider from "@/components/testimonial-slider"
 import MarketTicker from "@/components/market-ticker"
@@ -14,6 +13,7 @@ import { ShootingStars } from "@/components/shooting-stars"
 import WaitingList from "@/components/waiting-list"
 import { ContainerTextFlip } from "@/components/ui/container-text-flip"
 import GlowingCard from "@/components/GlowingCard"
+import { GlobeDemo } from "@/components/ui/GlobeDemo"
 
 export default function HomePage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -89,7 +89,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-gray-300">
-              Leverage AI features to maximize your market potential with actionable insights.
+              Backed by Real-Time Data & News
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="#join">
@@ -210,6 +210,19 @@ export default function HomePage() {
             width="250px"
             height="250px"
           />
+        </div>
+      </section>
+
+      {/* Globe Section */}
+      <section className="w-full flex flex-col items-center justify-center py-16 bg-transparent">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+          Global News and Sentiment Network
+        </h2>
+        <p className="text-lg md:text-xl text-gray-300 text-center max-w-2xl mb-2">
+          WishStox connects insights with news worldwide, delivering real-time AI insights across the globe.
+        </p>
+        <div className="w-full flex justify-center">
+          <GlobeDemo/>
         </div>
       </section>
 

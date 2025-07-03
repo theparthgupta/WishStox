@@ -43,18 +43,14 @@ const FinanceChart = () => {
     const updatePrices = () => {
       const now = performance.now()
 
-      // Only update every 80ms for realism
-      if (now - lastUpdateRef.current > 80) {
-        // Change trend every 2–5 seconds
-        if (now - lastTrendChangeRef.current > 2000 + Math.random() * 3000) {
-          velocityRef.current = (Math.random() - 0.5) * 0.7; // less abrupt
-          lastTrendChangeRef.current = now;
-        }
-
-        // Add smaller noise
-        const noise = (Math.random() - 0.5) * 0.02;
-        velocityRef.current += noise;
-        velocityRef.current = Math.max(Math.min(velocityRef.current, 1), -1);
+      // Only update every 40ms for realism (was 80)
+      if (now - lastUpdateRef.current > 40) {
+        // Smoother, more realistic price movement
+        const t = now / 1000;
+        const sine = Math.sin(t * 0.5) * 0.2; // slow, subtle oscillation
+        const noise = (Math.random() - 0.5) * 0.05; // smaller noise
+        velocityRef.current += noise + sine * 0.01;
+        velocityRef.current = Math.max(Math.min(velocityRef.current, 0.7), -0.7);
 
         // Update price
         currentPriceRef.current = currentPriceRef.current + velocityRef.current;
@@ -109,6 +105,24 @@ const FinanceChart = () => {
 
     let renderAnimationId: number
 
+    // Helper: Catmull-Rom to Bezier for smooth lines
+    function drawSmoothLine(ctx: CanvasRenderingContext2D, points: {x: number, y: number}[]) {
+      if (points.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i === 0 ? i : i - 1];
+        const p1 = points[i];
+        const p2 = points[i + 1];
+        const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
+        const cp1x = p1.x + (p2.x - p0.x) / 6;
+        const cp1y = p1.y + (p2.y - p0.y) / 6;
+        const cp2x = p2.x - (p3.x - p1.x) / 6;
+        const cp2y = p2.y - (p3.y - p1.y) / 6;
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+      }
+    }
+
     const renderFrame = () => {
       // Get current price history from ref
       const priceHistory = priceHistoryRef.current
@@ -116,8 +130,8 @@ const FinanceChart = () => {
       // Clear canvas
       ctx.clearRect(0, 0, rect.width, rect.height)
 
-      // Draw grid lines
-      ctx.strokeStyle = "rgba(0, 100, 50, 0.1)"
+      // Draw grid lines (lighter, modern)
+      ctx.strokeStyle = "rgba(255,255,255,0.07)"
       ctx.lineWidth = 0.5
 
       // Horizontal grid lines
@@ -143,95 +157,46 @@ const FinanceChart = () => {
       const maxPrice = Math.max(...priceHistory) * 1.02
       const priceRange = maxPrice - minPrice
 
-      // Draw line chart with smooth curve
+      // Build points array for Catmull-Rom
+      const points = priceHistory.map((price, i) => ({
+        x: (rect.width / priceHistory.length) * i,
+        y: rect.height - ((price - minPrice) / priceRange) * rect.height * 0.8,
+      }));
+
+      // Draw line chart with Catmull-Rom spline
       const isPositive = priceChange >= 0
-      ctx.strokeStyle = isPositive ? "#00c853" : "#ff5252"
-      ctx.lineWidth = 2
-      ctx.beginPath()
+      ctx.save();
+      ctx.strokeStyle = isPositive ? "#00c853" : "#ff5252";
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = isPositive ? "#38bdf8aa" : "#f472b6aa";
+      ctx.shadowBlur = 10;
+      drawSmoothLine(ctx, points);
+      ctx.stroke();
+      ctx.restore();
 
-      // Draw a smooth curve
-      if (priceHistory.length > 0) {
-        const firstPoint = {
-          x: 0,
-          y: rect.height - ((priceHistory[0] - minPrice) / priceRange) * rect.height * 0.8,
-        }
-
-        ctx.moveTo(firstPoint.x, firstPoint.y)
-
-        // Use bezier curves for smoother lines
-        for (let i = 0; i < priceHistory.length - 1; i++) {
-          const current = {
-            x: (rect.width / priceHistory.length) * i,
-            y: rect.height - ((priceHistory[i] - minPrice) / priceRange) * rect.height * 0.8,
-          }
-
-          const next = {
-            x: (rect.width / priceHistory.length) * (i + 1),
-            y: rect.height - ((priceHistory[i + 1] - minPrice) / priceRange) * rect.height * 0.8,
-          }
-
-          // Control points for the bezier curve
-          const cp1x = current.x + (next.x - current.x) / 2
-          const cp1y = current.y
-          const cp2x = current.x + (next.x - current.x) / 2
-          const cp2y = next.y
-
-          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, next.x, next.y)
-        }
-      }
-
-      ctx.stroke()
-
-      // Add gradient under the line
+      // Add modern blue/teal gradient under the line
       const gradient = ctx.createLinearGradient(0, 0, 0, rect.height)
-      if (isPositive) {
-        gradient.addColorStop(0, "rgba(0, 200, 83, 0.2)")
-        gradient.addColorStop(0.5, "rgba(0, 150, 60, 0.1)")
-        gradient.addColorStop(1, "rgba(0, 100, 40, 0)")
-      } else {
-        gradient.addColorStop(0, "rgba(255, 82, 82, 0.2)")
-        gradient.addColorStop(0.5, "rgba(200, 60, 60, 0.1)")
-        gradient.addColorStop(1, "rgba(150, 40, 40, 0)")
-      }
+      gradient.addColorStop(0, "rgba(56,189,248,0.18)") // cyan-400
+      gradient.addColorStop(1, "rgba(16,185,129,0.05)") // emerald-500
 
       ctx.fillStyle = gradient
       ctx.beginPath()
-
-      // Start from the bottom left
       ctx.moveTo(0, rect.height)
-
       // Draw the smooth curve again for the fill
-      if (priceHistory.length > 0) {
-        const firstPoint = {
-          x: 0,
-          y: rect.height - ((priceHistory[0] - minPrice) / priceRange) * rect.height * 0.8,
-        }
-
-        ctx.lineTo(firstPoint.x, firstPoint.y)
-
-        // Use bezier curves for smoother lines
-        for (let i = 0; i < priceHistory.length - 1; i++) {
-          const current = {
-            x: (rect.width / priceHistory.length) * i,
-            y: rect.height - ((priceHistory[i] - minPrice) / priceRange) * rect.height * 0.8,
-          }
-
-          const next = {
-            x: (rect.width / priceHistory.length) * (i + 1),
-            y: rect.height - ((priceHistory[i + 1] - minPrice) / priceRange) * rect.height * 0.8,
-          }
-
-          // Control points for the bezier curve
-          const cp1x = current.x + (next.x - current.x) / 2
-          const cp1y = current.y
-          const cp2x = current.x + (next.x - current.x) / 2
-          const cp2y = next.y
-
-          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, next.x, next.y)
+      if (points.length > 0) {
+        ctx.lineTo(points[0].x, points[0].y);
+        for (let i = 0; i < points.length - 1; i++) {
+          const p0 = points[i === 0 ? i : i - 1];
+          const p1 = points[i];
+          const p2 = points[i + 1];
+          const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
+          const cp1x = p1.x + (p2.x - p0.x) / 6;
+          const cp1y = p1.y + (p2.y - p0.y) / 6;
+          const cp2x = p2.x - (p3.x - p1.x) / 6;
+          const cp2y = p2.y - (p3.y - p1.y) / 6;
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
         }
       }
-
-      // Complete the path to the bottom right
       ctx.lineTo(rect.width, rect.height)
       ctx.closePath()
       ctx.fill()
