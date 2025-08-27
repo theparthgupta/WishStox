@@ -60,9 +60,27 @@ export default function WaitingList() {
         <h1 className="text-6xl md:text-8xl font-extrabold text-center bg-gradient-to-r from-gray-100 via-white to-gray-400 bg-clip-text text-transparent drop-shadow-xl mb-8 leading-tight">
           Join the waitlist
         </h1>
-        <p className="text-xl md:text-2xl text-gray-200 text-center max-w-2xl mb-10 font-medium">
+        <p className="text-xl md:text-2xl text-gray-200 text-center max-w-2xl mb-6 font-medium">
           Welcome to WishStox, the next-gen AI-powered trading platform. Get early access to powerful signals, analytics, and a vibrant trading community. Sign up below to secure your spot!
         </p>
+        <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-xl p-6 mb-8 border border-blue-500/30 backdrop-blur-sm">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+              🎉 MVP NOW LIVE
+            </span>
+          </div>
+          <p className="text-base md:text-lg text-gray-300 text-center mb-4">
+            Can't wait? Our MVP is ready for testing! Experience real-time stock analysis with AI-powered insights.
+          </p>
+          <div className="flex justify-center">
+            <a 
+              href="/dashboard" 
+              className="bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg"
+            >
+              Try MVP Dashboard →
+            </a>
+          </div>
+        </div>
         <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-5">
           <div className="w-full max-w-2xl flex flex-col sm:flex-row items-center gap-4">
             <input

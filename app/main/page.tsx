@@ -29,6 +29,10 @@ export default function Dashboard() {
                 <LineChart className="w-5 h-5" />
                 <span>Dashboard</span>
               </Link>
+              <Link href="/dashboard" className="flex items-center gap-2 text-gray-300 hover:text-green-400">
+                <TrendingUp className="w-5 h-5" />
+                <span>Stock Analyzer</span>
+              </Link>
               <Link href="/main/trending" className="flex items-center gap-2 text-gray-300 hover:text-green-400">
                 <TrendingUp className="w-5 h-5" />
                 <span>Trending</span>
@@ -65,6 +69,10 @@ export default function Dashboard() {
             <Link href="/main" className="flex items-center gap-2 text-green-400" onClick={() => setMobileNavOpen(false)}>
               <LineChart className="w-5 h-5" />
               <span>Dashboard</span>
+            </Link>
+            <Link href="/dashboard" className="flex items-center gap-2 text-gray-300 hover:text-green-400" onClick={() => setMobileNavOpen(false)}>
+              <TrendingUp className="w-5 h-5" />
+              <span>Stock Analyzer</span>
             </Link>
             <Link href="/main/trending" className="flex items-center gap-2 text-gray-300 hover:text-green-400" onClick={() => setMobileNavOpen(false)}>
               <TrendingUp className="w-5 h-5" />

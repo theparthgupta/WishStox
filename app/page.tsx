@@ -53,6 +53,20 @@ export default function HomePage() {
                   Join Waiting List <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
+              <Link href="/dashboard">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white border-none shadow-lg shadow-blue-900/30"
+                  style={{
+                    background: "linear-gradient(to right, #1e40af, #7c3aed)",
+                    color: "white",
+                    border: "none",
+                    boxShadow: "0 4px 14px 0 rgba(30, 64, 175, 0.3)",
+                  }}
+                >
+                  MVP Access ⚡
+                </Button>
+              </Link>
               <Link href="#about">
                 <Button
                   size="lg"
@@ -77,6 +91,50 @@ export default function HomePage() {
 
         <div className="mt-12 w-full overflow-hidden">
           <MarketTicker />
+        </div>
+      </section>
+
+      {/* MVP Announcement Section */}
+      <section className="w-full px-4 py-16 bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-blue-900/20 border-y border-blue-500/30">
+        <div className="container mx-auto text-center">
+          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl p-8 border border-blue-500/30 backdrop-blur-sm">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                🚀 MVP LIVE
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
+              WishStox MVP is Now Available!
+            </h2>
+            <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
+              We've built a working MVP in just 2 days! Experience real-time stock analysis with AI-powered technical indicators 
+              and news sentiment analysis. Perfect for early adopters and beta testers.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link href="/dashboard">
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white border-none shadow-lg"
+                >
+                  Try MVP Dashboard →
+                </Button>
+              </Link>
+              <div className="text-sm text-gray-400">
+                No login required • Built in 2 days • Ready for testing
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div className="bg-green-900/30 rounded-lg p-3 border border-green-500/30">
+                ✅ Real-time stock quotes
+              </div>
+              <div className="bg-blue-900/30 rounded-lg p-3 border border-blue-500/30">
+                📊 Technical analysis (SMA)
+              </div>
+              <div className="bg-purple-900/30 rounded-lg p-3 border border-purple-500/30">
+                🤖 AI news sentiment
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
