@@ -2,6 +2,7 @@
 
 import React from 'react';
 import StockAnalyzer from '@/components/stock-analyzer';
+import MarketTicker from '@/components/market-ticker';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Brain, Newspaper, Target } from 'lucide-react';
@@ -38,7 +39,9 @@ const DashboardPage = () => {
         {/* Stock Analyzer Component */}
         <StockAnalyzer />
 
-        
+        <div className="mb-8">
+          <MarketTicker />
+        </div>
       </main>
     </div>
   );
