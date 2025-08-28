@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { NavbarDemo } from "@/components/ui/NavbarDemo";
 
@@ -36,13 +35,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClerkProvider>
-          <div className="w-full min-h-screen overflow-x-hidden">
-            <NavbarDemo />
-            {children}
-          </div>
-          <Analytics />
-        </ClerkProvider>
+        <div className="w-full min-h-screen overflow-x-hidden">
+          <NavbarDemo />
+          {children}
+        </div>
+        <Analytics />
       </body>
     </html>
   );
